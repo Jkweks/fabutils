@@ -35,9 +35,7 @@ function generateBayInputs(system) {
     numBaysInput.style.display = 'none';
     numBaysInput.nextElementSibling.style.display = 'none'; // hide "Next" button
     form.classList.remove('hidden');
-  
-    // document.getElementById(`results${system}`).classList.add('hidden');
-    document.getElementById(`results${system}`)
+    document.getElementById(`results${system}`).classList.add('hidden');
   }
   
   // Add a new manual splice input row

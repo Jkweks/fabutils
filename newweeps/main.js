@@ -1,10 +1,3 @@
-function switchTab(system) {
-  ['T14000', 'T24650'].forEach(s => {
-    document.getElementById(`tab${s}`).classList.toggle('hidden', s !== system);
-    document.getElementById(`tabBtn${s}`).classList.toggle('active', s === system);
-  });
-}
-
 ['T14000', 'T24650'].forEach(system => {
   document.getElementById(`useManualSplice${system}`).addEventListener('change', (e) => {
     const container = document.getElementById(`manualSpliceContainer${system}`);

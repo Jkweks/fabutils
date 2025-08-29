@@ -12,9 +12,6 @@
     <h1>Engineering Tools</h1>
   </header>
   <main class="grid">
-    <a href="weeps/index.php" class="card">
-      <h2>Weep Hole Calculator</h2>
-    </a>
     <a href="caps.php" class="card">
       <h2>Pressure Plate / Cap Calculator</h2>
     </a>
