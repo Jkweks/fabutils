@@ -415,20 +415,16 @@ function calculateT14000(e) {
 //   }
 
 if (useManualSplice) {
-  manualSplicesStr = document.getElementById('manualSplicesT14000')?.value || '';
-  manualSplices = manualSplicesStr
-    .split(',')
-    .map(s => parseFractionalInput(s.trim()))
-    .filter(val => !isNaN(val));
-
-  manualSplicesStr = getManualSpliceStr()
-
-  spliceSegments = getManualSpliceSegments(manualSplices, totalRun, spliceGap);
-
-  const manualTotal = spliceSegments.reduce((a, seg, i) =>
-    a + (seg.end - seg.start) + (i < spliceSegments.length - 1 ? spliceGap : 0), 0);
+  spliceSegments = getManualSpliceSegments('T14000', totalRun, spliceGap);
+  const manualTotal = spliceSegments.reduce(
+    (a, seg, i) =>
+      a + (seg.end - seg.start) + (i < spliceSegments.length - 1 ? spliceGap : 0),
+    0
+  );
   if (manualTotal + 0.001 < totalRun) {
-    alert(`Warning: Manual splices total ${manualTotal.toFixed(3)}, less than total run ${totalRun.toFixed(3)}.`);
+    alert(
+      `Warning: Manual splices total ${manualTotal.toFixed(3)}, less than total run ${totalRun.toFixed(3)}.`
+    );
   }
 } else {
   spliceSegments = getAutoSpliceSegmentsBayMidpointsOnly(
@@ -449,39 +445,6 @@ if (useManualSplice) {
   pos = doorLeft ? 0 : 2.125;
   pos += offset;
 
-  function getManualSpliceSegments(manualSplices, totalRun, spliceGap = 0) {
-  if (!manualSplices || manualSplices.length === 0) {
-    return [{ part: 1, start: 0, end: totalRun }];
-  }
-
-  const segments = [];
-  let previous = 0;
-
-  manualSplices.forEach((splicePos, i) => {
-    const end = splicePos - spliceGap / 2;
-    segments.push({
-      part: i + 1,
-      start: previous,
-      end: end
-    });
-    previous = splicePos + spliceGap / 2;
-
-  });
-
-  // Last segment
-  segments.push({
-    part: manualSplices.length + 1,
-    start: previous,
-    end: totalRun
-  });
-
-  return segments;
-}
-
-// console.group(`🧩 Manual Splice Debug ()`);
-// console.log("📥 Raw Input (string):", manualSplicesStr);
-// console.log("🧮 Parsed Manual Splice Positions (inches):", manualSplices);
-// console.log("📏 Total Run:", totalRun);
 // console.log("🪚 Splice Gap:", spliceGap);
 // console.log("📦 Generated Splice Segments:", spliceSegments);
 // spliceSegments.forEach(seg => {
@@ -596,7 +559,7 @@ function calculateT24650(e) {
 
   try {
     if (useManualSplice) {
-      spliceSegments = getManualSpliceSegments('T24650', spliceGap);
+      spliceSegments = getManualSpliceSegments('T24650', totalRun, spliceGap);
       const manualTotal = spliceSegments.reduce((a, seg, i) =>
         a + (seg.end - seg.start) + (i < spliceSegments.length - 1 ? spliceGap : 0), 0);
       if (manualTotal + 0.001 < totalRun) {
@@ -674,20 +637,3 @@ spliceSegments.forEach((seg, i) => {
   resDiv.classList.remove('hidden');
 }
 
-
-
-
-function getManualSpliceStr(system) {
-  const container = document.getElementById(`spliceContainerT14000`);
-  const inputs = container.querySelectorAll('input[type="text"]');
-  const values = [];
-
-  inputs.forEach(input => {
-    const val = input.value.trim();
-    if(val) values.push(val);
-  });
-
-  // Example: comma-separated string
-  const manualSpliceStr = values.join(', ');
-  return manualSpliceStr;
-}

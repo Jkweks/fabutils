@@ -161,3 +161,27 @@ function getManualSpliceStr(system) {
   const manualSpliceStr = values.join(', ');
   return manualSpliceStr;
 }
+
+function getManualSpliceSegments(system, totalRun, spliceGap = 0) {
+  const manualSpliceStr = getManualSpliceStr(system);
+  const manualSplices = manualSpliceStr
+    .split(',')
+    .map(s => parseFractionalInput(s.trim()))
+    .filter(val => !isNaN(val));
+
+  if (manualSplices.length === 0) {
+    return [{ part: 1, start: 0, end: totalRun }];
+  }
+
+  const segments = [];
+  let previous = 0;
+
+  manualSplices.forEach((splicePos, i) => {
+    const end = splicePos - spliceGap / 2;
+    segments.push({ part: i + 1, start: previous, end });
+    previous = splicePos + spliceGap / 2;
+  });
+
+  segments.push({ part: manualSplices.length + 1, start: previous, end: totalRun });
+  return segments;
+}
