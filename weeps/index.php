@@ -112,32 +112,39 @@
   }
 
 function toFractionalInch(decimalInch) {
+  if (typeof decimalInch !== 'number' || isNaN(decimalInch)) {
+    return NaN;
+  }
+
   const whole = Math.floor(decimalInch);
   const frac = decimalInch - whole;
 
   const preferredFractions = [
-    { denominator: 2, text: '1/2' },
-    { denominator: 4, text: '1/4' },
-    { denominator: 4, text: '3/4' },
-    { denominator: 8, text: '1/8' },
-    { denominator: 8, text: '3/8' },
-    { denominator: 8, text: '5/8' },
-    { denominator: 8, text: '7/8' },
-    { denominator: 16, text: '1/16' },
-    { denominator: 16, text: '3/16' },
-    { denominator: 16, text: '5/16' },
-    { denominator: 16, text: '7/16' },
-    { denominator: 16, text: '9/16' },
-    { denominator: 16, text: '11/16' },
-    { denominator: 16, text: '13/16' },
-    { denominator: 16, text: '15/16' },
+    { num: 1, den: 2 },
+    { num: 1, den: 4 },
+    { num: 3, den: 4 },
+    { num: 1, den: 8 },
+    { num: 3, den: 8 },
+    { num: 5, den: 8 },
+    { num: 7, den: 8 },
+    { num: 1, den: 16 },
+    { num: 3, den: 16 },
+    { num: 5, den: 16 },
+    { num: 7, den: 16 },
+    { num: 9, den: 16 },
+    { num: 11, den: 16 },
+    { num: 13, den: 16 },
+    { num: 15, den: 16 },
   ];
 
   let closest = null;
   let minDiff = Infinity;
 
   for (let f of preferredFractions) {
-    const value = eval(f.text); // e.g., 3/4 = 0.75
+    if (!Number.isInteger(f.num) || !Number.isInteger(f.den) || f.den === 0) {
+      throw new Error(`Invalid fraction: ${f.num}/${f.den}`);
+    }
+    const value = f.num / f.den;
     const diff = Math.abs(frac - value);
     if (diff < minDiff) {
       minDiff = diff;
@@ -145,9 +152,12 @@ function toFractionalInch(decimalInch) {
     }
   }
 
-  const approx = eval(closest.text);
+  if (!closest) {
+    return NaN;
+  }
+
+  const approx = closest.num / closest.den;
   let resultWhole = whole;
-  let resultFraction = closest.text;
 
   // If rounding pushes to next inch
   if (Math.abs(frac - 1) < Math.abs(frac - approx)) {
@@ -156,11 +166,11 @@ function toFractionalInch(decimalInch) {
   }
 
   // No fraction part
-  if (Math.abs(frac - 0) < 0.03125 || closest.text === '0/16') {
+  if (Math.abs(frac) < 0.03125) {
     return `${resultWhole}`;
   }
 
-  return `${resultWhole} ${closest.text}`;
+  return `${resultWhole} ${closest.num}/${closest.den}`;
 }
 
 function calculatePositions() {
