@@ -1,3 +1,7 @@
+/**
+ * Entry point for rendering the splice segment and mark point visualization.
+ * Called from calculate.js after computing splice segments and markpoints.
+ */
 function visualizeMarkpoints(containerId, spliceSegments, allMarkPoints, totalRunInInches, doorLeft, doorRight) {
   const container = document.getElementById(containerId);
   if (!container) {
