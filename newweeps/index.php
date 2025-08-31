@@ -32,11 +32,11 @@
       <input type="text" id="trackOffsetT14000" value="0" placeholder="e.g. 3/4" />
 
       <div class="checkbox">
-        <input type="checkbox" id="doorLeftT14000" checked />
+        <input type="checkbox" id="doorLeftT14000" />
         <label for="doorLeftT14000">Door on Left</label>
       </div>
       <div class="checkbox">
-        <input type="checkbox" id="doorRightT14000" checked />
+        <input type="checkbox" id="doorRightT14000" />
         <label for="doorRightT14000">Door on Right</label>
       </div>
 
@@ -65,7 +65,7 @@
     </form>
 
     <div id="resultsT14000" class="result hidden"></div>
-    <button id="downloadT14000">Download Results</button>
+    <button id="downloadT14000" class="hidden">Download Results</button>
   </div>
 
   <!-- T24650 Tab -->
@@ -84,11 +84,11 @@
       <input type="text" id="trackOffsetT24650" value="0" placeholder="e.g. 3/4" />
 
       <div class="checkbox">
-        <input type="checkbox" id="doorLeftT24650" checked />
+        <input type="checkbox" id="doorLeftT24650" />
         <label for="doorLeftT24650">Door on Left</label>
       </div>
       <div class="checkbox">
-        <input type="checkbox" id="doorRightT24650" checked />
+        <input type="checkbox" id="doorRightT24650" />
         <label for="doorRightT24650">Door on Right</label>
       </div>
 
@@ -124,6 +124,8 @@
 
 
   <!-- Script Modules -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="utils.js"></script>
   <script src="tabs.js"></script>
   <script src="form.js"></script>

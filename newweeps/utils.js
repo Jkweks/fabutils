@@ -52,6 +52,31 @@ function parseFractionalInput(input) {
     URL.revokeObjectURL(url);
   }
 
+  // Generate a PDF containing the written results and visual markout
+  async function downloadPDF(system) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Add textual results
+    const resDiv = document.getElementById(`results${system}`);
+    const text = resDiv ? resDiv.textContent : '';
+    const lines = doc.splitTextToSize(text, 180);
+    doc.text(lines, 10, 10);
+
+    // Add visual on a new page if available
+    const visual = document.getElementById('markpointVisualizer');
+    if (visual && visual.childElementCount > 0) {
+      const canvas = await html2canvas(visual);
+      const imgData = canvas.toDataURL('image/png');
+      doc.addPage();
+      const pageWidth = doc.internal.pageSize.getWidth() - 20;
+      const pageHeight = canvas.height * pageWidth / canvas.width;
+      doc.addImage(imgData, 'PNG', 10, 10, pageWidth, pageHeight);
+    }
+
+    doc.save(`${system}_markout.pdf`);
+  }
+
 function getAutoSpliceSegmentsBayMidpointsOnly(
   bayWidths,
   spacing,
