@@ -9,6 +9,7 @@
 <body>
 
   <h2>Bay Markout Tool - T14000 & T24650</h2>
+  <!-- T14000 uses center or quarter points; T24650 uses 2"/8" offsets as defined in calculate.js -->
 
   <div class="tab-buttons">
     <button id="tabBtnT14000" class="active" onclick="switchTab('T14000')">T14000</button>
@@ -21,7 +22,7 @@
     <input type="number" id="numBaysT14000" min="1" max="20" placeholder="e.g. 4" />
     <button type="button" onclick="generateBayInputs('T14000')">Next</button>
 
-    <form id="mainFormT14000" class="hidden">
+    <form id="mainFormT14000" class="hidden" data-system="T14000">
       <div id="bayInputsT14000"></div>
 
       <label for="spacingT14000">Spacing Between Bays (inches):</label>
@@ -73,7 +74,7 @@
     <input type="number" id="numBaysT24650" min="1" max="20" placeholder="e.g. 4" />
     <button type="button" onclick="generateBayInputs('T24650')">Next</button>
 
-    <form id="mainFormT24650" class="hidden">
+    <form id="mainFormT24650" class="hidden" data-system="T24650">
       <div id="bayInputsT24650"></div>
 
       <label for="spacingT24650">Spacing Between Bays (inches):</label>

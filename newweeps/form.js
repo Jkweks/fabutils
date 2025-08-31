@@ -70,11 +70,11 @@ function generateBayInputs(system) {
   }
   
   // Setup all form-related behavior for a given system
-  function initializeForm(system, calculateFn) {
+  function initializeForm(system) {
     setupSpliceToggle(system);
-  
+
     const form = document.getElementById(`mainForm${system}`);
-    form.addEventListener('submit', calculateFn);
+    form.addEventListener('submit', (e) => calculate(e, system));
   }
 
   function onSubmitHandler(event) {
