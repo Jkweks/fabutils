@@ -3,6 +3,8 @@
     const container = document.getElementById(`manualSpliceContainer${system}`);
     container.classList.toggle('hidden', !e.target.checked);
   });
+  const dlBtn = document.getElementById(`download${system}`);
+  if (dlBtn) dlBtn.addEventListener('click', () => downloadPDF(system));
 });
 
 // Entry point: run this after DOM is fully loaded

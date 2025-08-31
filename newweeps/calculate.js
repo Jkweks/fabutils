@@ -121,13 +121,14 @@ function calculate(e, system) {
       let label;
       if (system === 'T14000') {
         label = markPoints.length === 1 ? 'Centerline' : idx === 0 ? 'Q1' : 'Q3';
+        results.push(`• ${label} at ${roundToSixteenths(local)} → Part ${seg.part} - ${roundToSixteenths(seg.local)}`);
       } else {
         if (markPoints.length === 1) label = 'Centerline';
         else if (markPoints.length === 2) label = idx === 0 ? '2" from start' : '2" from end';
         else if (markPoints.length === 3) label = ['2" from start', 'Centerline', '2" from end'][idx];
         else label = ['2" from start', '8" from start', '8" from end', '2" from end'][idx];
+        results.push(`• ${label} at ${roundToSixteenths(pt)} → Part ${seg.part} @ ${roundToSixteenths(seg.local)}`);
       }
-      results.push(`• ${label} at ${roundToSixteenths(pt)} → Part ${seg.part} @ ${roundToSixteenths(seg.local)}`);
       pointsByPart[seg.part] = pointsByPart[seg.part] || [];
       pointsByPart[seg.part].push(seg.local);
     });
@@ -140,12 +141,16 @@ function calculate(e, system) {
     : '--- Summary of Points by Part ---');
   Object.keys(pointsByPart).sort((a, b) => a - b).forEach(part => {
     const sorted = pointsByPart[part].sort((a, b) => a - b).map(roundToSixteenths);
-    results.push(`Part ${part}: ${sorted.join(' | ')}`);
+    const seg = spliceSegments.find(s => s.part === parseInt(part));
+    const len = roundToSixteenths(seg.end - seg.start);
+    results.push(`Part ${part} (Length: ${len}): ${sorted.join(' | ')}`);
   });
 
   const resDiv = document.getElementById(`results${system}`);
   resDiv.textContent = `Markout Results:\n\n${results.join('\n')}`;
   resDiv.classList.remove('hidden');
+  const dlBtn = document.getElementById(`download${system}`);
+  if (dlBtn) dlBtn.classList.remove('hidden');
 }
 
 // Wrapper functions for existing references
