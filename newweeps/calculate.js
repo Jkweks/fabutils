@@ -39,14 +39,14 @@ function findSegment(segments, point) {
 function calculate(e, system) {
   e.preventDefault();
 
-  const spacing = parseFractionalInput(document.getElementById(`spacing${system}`).value) || 0;
+  const spacingDefault = parseFractionalInput(document.getElementById(`spacing${system}`).value) || 0;
   const spliceGap = parseFractionalInput(document.getElementById(`spliceGap${system}`).value) || 0;
   const doorLeft = document.getElementById(`doorLeft${system}`).checked;
   const doorRight = document.getElementById(`doorRight${system}`).checked;
   const useManualSplice = document.getElementById(`useManualSplice${system}`).checked;
   const offset = parseFractionalInput(document.getElementById(`trackOffset${system}`).value) || 0;
 
-  const bayInputs = [...document.querySelectorAll(`#bayInputs${system} input`)];
+  const bayInputs = [...document.querySelectorAll(`#bayInputs${system} input[type="text"]`)];
   if (!bayInputs.length) {
     alert('Please enter number of bays and click Next first.');
     return;
@@ -66,16 +66,19 @@ function calculate(e, system) {
     return;
   }
 
+  const expansionChecks = [...document.querySelectorAll(`#bayInputs${system} input[type="checkbox"]`)];
+  const spacings = bayWidths.slice(0, -1).map((_, i) => expansionChecks[i] && expansionChecks[i].checked ? 2.5 : spacingDefault);
+
   const allMarkPoints = [];
   let pos = doorLeft ? 0 : 2.125;
   pos += offset;
-  bayWidths.forEach((width) => {
+  bayWidths.forEach((width, i) => {
     const points = getWeepPoints(system, width);
     points.forEach(p => allMarkPoints.push(pos + p));
-    pos += width + spacing;
+    pos += width + (i < bayWidths.length - 1 ? spacings[i] : 0);
   });
 
-  const totalRun = bayWidths.reduce((a, b) => a + b, 0) + spacing * (bayWidths.length - 1);
+  const totalRun = bayWidths.reduce((a, b) => a + b, 0) + spacings.reduce((a, b) => a + b, 0);
   const maxPartLength = 288;
   let spliceSegments;
   try {
@@ -91,7 +94,7 @@ function calculate(e, system) {
     } else {
       spliceSegments = getAutoSpliceSegmentsBayMidpointsOnly(
         bayWidths,
-        spacing,
+        spacings,
         spliceGap,
         maxPartLength,
         doorLeft,
@@ -133,7 +136,7 @@ function calculate(e, system) {
       pointsByPart[seg.part].push(seg.local);
     });
     results.push('');
-    pos += width + (i < bayWidths.length - 1 ? spacing : 0);
+    pos += width + (i < bayWidths.length - 1 ? spacings[i] : 0);
   });
 
   results.push(system === 'T14000'

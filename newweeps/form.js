@@ -29,6 +29,23 @@ function generateBayInputs(system) {
   wrapper.appendChild(input);
   wrapper.appendChild(label);
   container.appendChild(wrapper);
+
+  if (i < num - 1) {
+    const expWrap = document.createElement('div');
+    expWrap.className = 'expansion-wrapper';
+
+    const expChk = document.createElement('input');
+    expChk.type = 'checkbox';
+    expChk.id = `expansion${system}_${i}`;
+
+    const expLbl = document.createElement('label');
+    expLbl.htmlFor = expChk.id;
+    expLbl.textContent = 'Expansion joint after this DLO';
+
+    expWrap.appendChild(expChk);
+    expWrap.appendChild(expLbl);
+    container.appendChild(expWrap);
+  }
 }
 
   
