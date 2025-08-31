@@ -79,7 +79,7 @@ function parseFractionalInput(input) {
 
 function getAutoSpliceSegmentsBayMidpointsOnly(
   bayWidths,
-  spacing,
+  spacings,
   spliceGap,
   maxPartLength,
   doorLeft,
@@ -99,9 +99,9 @@ function getAutoSpliceSegmentsBayMidpointsOnly(
     positions.push(pos);
     const center = pos + bayWidths[i] / 2;
     bayCenters.push(center);
-    pos += bayWidths[i] + (i < bayCount - 1 ? spacing : 0);
+    pos += bayWidths[i] + (i < bayCount - 1 ? spacings[i] : 0);
   }
-  const totalRun = pos + (doorRight ? 0 : 2);
+  const totalRun = pos + (doorRight ? 0 : 2.125);
 
   let segments = [];
 
