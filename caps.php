@@ -1,15 +1,29 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cap Splice Calculator</title>
+  <link rel="stylesheet" href="css/style.css" />
   <style>
+    :root {
+      --button-bg: #2563eb;
+      --button-hover-bg: #1d4ed8;
+      --button-text: #fff;
+      --border: #ccc;
+      --column-bg: #f0f0f0;
+    }
+    [data-theme="dark"] {
+      --border: #444;
+      --column-bg: #2a2a2a;
+    }
     body {
       font-family: sans-serif;
       padding: 2rem;
-      background: #f9fafb;
+      background: var(--bg);
+      color: var(--text);
+      display: block;
     }
     textarea {
       width: 100%;
@@ -17,25 +31,28 @@
       margin-bottom: 1rem;
       font-size: 1rem;
       padding: 0.5rem;
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
     }
     button {
       padding: 0.75rem 1.5rem;
-      background: #2563eb;
-      color: white;
+      background: var(--button-bg);
+      color: var(--button-text);
       border: none;
       border-radius: 0.375rem;
       cursor: pointer;
       margin-right: 1rem;
     }
     button:hover {
-      background: #1d4ed8;
+      background: var(--button-hover-bg);
     }
     .results {
       margin-top: 2rem;
-      background: white;
+      background: var(--card-bg);
       padding: 1rem;
       border-radius: 0.5rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px var(--shadow);
     }
     .result-group {
       margin-bottom: 2rem;
@@ -49,7 +66,7 @@
       padding-left: 1.5rem;
     }
     .column {
-      background: #f0f0f0;
+      background: var(--column-bg);
       padding: 0.75rem;
       border-radius: 0.375rem;
     }
@@ -87,7 +104,7 @@
 
   <div id="graphic"></div>
   <div class="results" id="results"></div>
-  
+
 
   <script>
     const MULLION_WIDTH = 2.5;
@@ -311,5 +328,14 @@ document.getElementById("graphic").innerHTML += svg;
       document.body.removeChild(link);
     }
   </script>
+
+  <div class="theme-toggle">
+    <label class="switch">
+      <input type="checkbox" id="theme-toggle">
+      <span class="slider round"></span>
+    </label>
+  </div>
+
+  <script src="js/theme-toggle.js"></script>
 </body>
 </html>

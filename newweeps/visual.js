@@ -9,8 +9,17 @@ function visualizeMarkpoints(containerId, spliceSegments, allMarkPoints, totalRu
     return;
   }
 
-  // Unhide visual container if present
+  // Handle missing data
   const visualContainer = document.getElementById('visual-container');
+  if (!spliceSegments || spliceSegments.length === 0) {
+    if (visualContainer) {
+      visualContainer.classList.add('hidden');
+    }
+    container.innerHTML = '';
+    return;
+  }
+
+  // Unhide visual container
   if (visualContainer) {
     visualContainer.classList.remove('hidden');
   }
@@ -25,12 +34,8 @@ function visualizeMarkpoints(containerId, spliceSegments, allMarkPoints, totalRu
   const visualTotalLength = totalRunInInches + leftExtension + rightExtension;
   const containerWidth = container.offsetWidth;
 
-  // Step 1: Find longest segment (not including extensions)
-  const longestSegmentLength = Math.max(...spliceSegments.map(s => s.end - s.start));
-
-  // Step 2: Calculate scale so longest segment = ~97% of container
-  const maxTrackWidthPx = containerWidth * 0.95;
-  const scale = ((maxTrackWidthPx / longestSegmentLength)*.95);
+  // Scale so entire run fits within container (~95%)
+  const scale = (containerWidth * 0.95) / visualTotalLength;
 
   // 🪵 Debug logging
   console.group("🔍 Markpoint Visualizer Debug");
@@ -67,17 +72,22 @@ function visualizeMarkpoints(containerId, spliceSegments, allMarkPoints, totalRu
     const track = document.createElement('div');
     track.className = 'visual-track';
 
-    const segmentLengthInches = (isFirst ? segment.end : (segment.end - segment.start));
-    const extraInches = (isFirst ? leftExtension : 0) + (isLast ? rightExtension : 0);
-    // const extraInches = 0;
-    const totalSegmentInches = segmentLengthInches + extraInches;
-    track.style.width = `${totalSegmentInches * scale}px`;
+    let segmentStart = segment.start;
+    let segmentEnd = segment.end;
+    if (isFirst) {
+      segmentStart -= leftExtension;
+    }
+    if (isLast) {
+      segmentEnd += rightExtension;
+    }
+    const segmentLengthInches = segmentEnd - segmentStart;
+    track.style.width = `${segmentLengthInches * scale}px`;
     track.style.position = 'relative';
 
     // Add markpoints
     allMarkPoints.forEach((pt) => {
       if (pt >= segment.start && pt <= segment.end) {
-        const offsetInInches = isFirst? pt : pt - segment.start;
+        const offsetInInches = pt - segmentStart;
         const posPx = offsetInInches * scale;
 
         const mark = document.createElement('div');
@@ -88,7 +98,7 @@ function visualizeMarkpoints(containerId, spliceSegments, allMarkPoints, totalRu
         const lbl = document.createElement('div');
         lbl.className = 'markpoint-label';
         lbl.style.left = `${posPx}px`;
-        lbl.textContent = roundToSixteenths(isFirst? pt : pt - segment.start);
+        lbl.textContent = roundToSixteenths(pt - segment.start);
         track.appendChild(lbl);
       }
     });
