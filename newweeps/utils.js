@@ -92,8 +92,8 @@ function getAutoSpliceSegmentsBayMidpointsOnly(
   let positions = [];
   let bayCenters = [];
 
-const initialPos = offset;
-let pos = initialPos;
+  const initialPos = (doorLeft ? 0 : 2.125) + offset;
+  let pos = initialPos;
 
   for (let i = 0; i < bayCount; i++) {
     positions.push(pos);
@@ -101,7 +101,7 @@ let pos = initialPos;
     bayCenters.push(center);
     pos += bayWidths[i] + (i < bayCount - 1 ? spacing : 0);
   }
-  const totalRun = pos + (doorRight ? 0 : 2.125) + (doorLeft ? 0 : 2.125);
+  const totalRun = pos + (doorRight ? 0 : 2);
 
   let segments = [];
 
@@ -109,8 +109,7 @@ let pos = initialPos;
     return markPointsAll.every(mp => Math.abs(mp - candidate) >= 6);
   }
 
-  let segmentStart = (doorLeft ? 0 : 2.125);
-  segmentStart += offset;
+  let segmentStart = 0;
 
   while (segmentStart < totalRun) {
     // Check if remaining length fits in maxPartLength - if so, create last segment and break

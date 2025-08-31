@@ -20,7 +20,7 @@ function visualizeMarkpoints(containerId, spliceSegments, allMarkPoints, totalRu
 
   // Extensions
   const leftExtension = doorLeft ? 0 : 2.125;
-  const rightExtension = doorRight ? 0 : 2.125;
+  const rightExtension = doorRight ? 0 : 2;
 
   const visualTotalLength = totalRunInInches + leftExtension + rightExtension;
   const containerWidth = container.offsetWidth;
