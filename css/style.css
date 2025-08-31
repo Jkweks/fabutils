@@ -125,3 +125,16 @@ input:checked + .slider:before {
 .slider.round {
   border-radius: 24px;
 }
+
+/* === Table Styles === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  border: 1px solid var(--card-hover);
+  padding: 0.5rem;
+  text-align: left;
+}

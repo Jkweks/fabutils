@@ -20,6 +20,36 @@
     </a>
   </main>
 
+  <section class="items-list">
+    <h2>Items</h2>
+    <?php
+      $itemsFile = __DIR__ . '/data/items.json';
+      $items = [];
+      if (file_exists($itemsFile)) {
+        $items = json_decode(file_get_contents($itemsFile), true) ?? [];
+      }
+
+      if (!empty($items)) {
+        echo '<table>';
+        echo '<tr><th>SKU</th><th>Type</th><th>Category</th><th>Use</th><th>Description</th><th>Action</th></tr>';
+        foreach ($items as $item) {
+          echo '<tr>';
+          echo '<td>' . htmlspecialchars($item['sku']) . '</td>';
+          echo '<td>' . htmlspecialchars($item['type']) . '</td>';
+          echo '<td>' . htmlspecialchars($item['category']) . '</td>';
+          echo '<td>' . htmlspecialchars($item['use']) . '</td>';
+          echo '<td>' . htmlspecialchars($item['description']) . '</td>';
+          echo '<td><a href="edit_item.php?sku=' . urlencode($item['sku']) . '">Edit</a></td>';
+          echo '</tr>';
+        }
+        echo '</table>';
+      } else {
+        echo '<p>No items found.</p>';
+      }
+    ?>
+    <p><a href="items.php">View all items</a></p>
+  </section>
+
   <!-- Theme Toggle Switch -->
   <div class="theme-toggle">
     <label class="switch">
