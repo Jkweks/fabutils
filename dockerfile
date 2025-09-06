@@ -4,5 +4,5 @@
 COPY . /var/www/html
 
      # Expose port 80
-EXPOSE 80
+EXPOSE 8032
  # The base image already starts Apache in the foreground
