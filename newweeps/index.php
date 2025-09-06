@@ -64,7 +64,6 @@
 
     </form>
 
-    <div id="resultsT14000" class="result hidden"></div>
     <button id="downloadT14000" class="hidden">Download Results</button>
   </div>
 
@@ -114,13 +113,17 @@
       <button type="submit">Calculate Points</button>
     </form>
 
-    <div id="resultsT24650" class="result hidden"></div>
     <button id="downloadT24650" class="hidden">Download Results</button>
   </div>
 
-<div id="visual-container" class="hidden">
-  <div id="markpointVisualizer" class="visual-bar"></div>
-</div>
+  <!-- Results Modal -->
+  <div id="resultsModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <div id="markpointVisualizer" class="visual-bar"></div>
+      <div id="results" class="result"></div>
+    </div>
+  </div>
 
 
   <!-- Theme Toggle Switch -->

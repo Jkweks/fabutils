@@ -149,9 +149,12 @@ function calculate(e, system) {
     results.push(`Part ${part} (Length: ${len}): ${sorted.join(' | ')}`);
   });
 
-  const resDiv = document.getElementById(`results${system}`);
-  resDiv.textContent = `Markout Results:\n\n${results.join('\n')}`;
-  resDiv.classList.remove('hidden');
+  const resDiv = document.getElementById('results');
+  if (resDiv) {
+    resDiv.textContent = `Markout Results:\n\n${results.join('\n')}`;
+  }
+  const modal = document.getElementById('resultsModal');
+  if (modal) modal.classList.remove('hidden');
   const dlBtn = document.getElementById(`download${system}`);
   if (dlBtn) dlBtn.classList.remove('hidden');
 }
