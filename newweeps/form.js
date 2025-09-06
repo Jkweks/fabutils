@@ -115,6 +115,12 @@ function resetForm(system) {
   // Clear form fields and hide sections
   document.getElementById(`bayInputs${system}`).innerHTML = '';
   document.getElementById(`mainForm${system}`).classList.add('hidden');
+
+  ['doorLeft', 'doorRight'].forEach(dir => {
+    const el = document.getElementById(`${dir}${system}`);
+    if (el) el.checked = false;
+  });
+
   const modal = document.getElementById('resultsModal');
   if (modal) modal.classList.add('hidden');
 
@@ -123,7 +129,17 @@ function resetForm(system) {
   document.getElementById(`useManualSplice${system}`).checked = false;
   document.getElementById(`manualSpliceContainer${system}`).classList.add('hidden');
 
-  // Clear visual markout
+  // Clear results and shared visual
+  const visualizer = document.getElementById('markpointVisualizer');
+  if (visualizer) visualizer.innerHTML = '';
+  const resultsDiv = document.getElementById('results');
+  if (resultsDiv) resultsDiv.textContent = '';
+
+  // Hide download button
+  const dlBtn = document.getElementById(`download${system}`);
+  if (dlBtn) dlBtn.classList.add('hidden');
+
+  // Clear any system-specific visual containers
   const visual = document.getElementById(`markoutVisual${system}`);
   if (visual) visual.innerHTML = '';
 }

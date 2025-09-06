@@ -111,6 +111,7 @@
       <input type="text" id="spliceGapT24650" value="3/8" />
 
       <button type="submit">Calculate Points</button>
+      <button type="button" onclick="resetForm('T24650')">Start Over</button>
     </form>
 
     <button id="downloadT24650" class="hidden">Download Results</button>
