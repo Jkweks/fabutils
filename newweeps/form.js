@@ -52,7 +52,8 @@ function generateBayInputs(system) {
     numBaysInput.style.display = 'none';
     numBaysInput.nextElementSibling.style.display = 'none'; // hide "Next" button
     form.classList.remove('hidden');
-    document.getElementById(`results${system}`).classList.add('hidden');
+    const modal = document.getElementById('resultsModal');
+    if (modal) modal.classList.add('hidden');
   }
   
   // Add a new manual splice input row
@@ -114,7 +115,8 @@ function resetForm(system) {
   // Clear form fields and hide sections
   document.getElementById(`bayInputs${system}`).innerHTML = '';
   document.getElementById(`mainForm${system}`).classList.add('hidden');
-  document.getElementById(`results${system}`).classList.add('hidden');
+  const modal = document.getElementById('resultsModal');
+  if (modal) modal.classList.add('hidden');
 
   // Clear manual splice fields
   document.getElementById(`spliceContainer${system}`).innerHTML = '';

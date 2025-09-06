@@ -23,4 +23,13 @@ window.addEventListener('DOMContentLoaded', () => {
     if (dl) dl.checked = false;
     if (dr) dr.checked = false;
   });
+
+  const modal = document.getElementById('resultsModal');
+  const close = document.getElementById('closeModal');
+  if (close) close.addEventListener('click', () => modal.classList.add('hidden'));
+  if (modal) {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+  }
 });

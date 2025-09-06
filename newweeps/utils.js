@@ -58,7 +58,7 @@ function parseFractionalInput(input) {
     const doc = new jsPDF();
 
     // Add textual results
-    const resDiv = document.getElementById(`results${system}`);
+    const resDiv = document.getElementById('results');
     const text = resDiv ? resDiv.textContent : '';
     const lines = doc.splitTextToSize(text, 180);
     doc.text(lines, 10, 10);
